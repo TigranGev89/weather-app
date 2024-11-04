@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
-import { useWeatherData } from '../hooks/useWeatherData';
 import CurrentWeather from '../components/CurrentWeather';
 import HourlyForecast from '../components/HourlyForecast';
 import DailyForecast from '../components/DailyForecast';
 import Spinner from '../components/Spinner';
+import { useGetWeatherDataQuery } from '../services/weatherApi';
 
 
-const App: React.FC = () => {
+const Weather: React.FC = () => {
 const [inputCity, setInputCity] = useState<string>('Yerevan');
   const [city, setCity] = useState<string>('Yerevan'); 
   const [unit, setUnit] = useState<'metric' | 'imperial'>('metric');
   const [selectedDayIndex, setSelectedDayIndex] = useState<number>(0);
 
-  const { weather, loading, error } = useWeatherData(city, unit);
+	 const { data: weather, error, isLoading } = useGetWeatherDataQuery({ city, unit });
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputCity(e.target.value);
@@ -74,11 +74,11 @@ const [inputCity, setInputCity] = useState<string>('Yerevan');
 				</div>
       </header>
 
-      {loading && <Spinner />} 
+      {isLoading && <Spinner />} 
 
-      {error && <p className="error-message"> {error}</p>} 
+      {error && <p className="error-message"> 'Ups something went wrong :('</p>} 
 
-      {!loading && !error && weather &&  (
+      {!isLoading && !error && weather &&  (
         <main className="content">
           <div className="weather-overview">
             <CurrentWeather
@@ -115,5 +115,5 @@ const [inputCity, setInputCity] = useState<string>('Yerevan');
   );
 };
 
-export default App;
+export default Weather;
 
