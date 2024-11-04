@@ -76,7 +76,7 @@ const [inputCity, setInputCity] = useState<string>('Yerevan');
 
       {isLoading && <Spinner />} 
 
-      {error && <p className="error-message"> 'Ups something went wrong :('</p>} 
+      {error && <p className="error-message"> Ups something went wrong 🙁 </p>} 
 
       {!isLoading && !error && weather &&  (
         <main className="content">
